@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024甲辰龙年大吉</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 颜色变量 */
+        :root {
+            --primary-red: #e53935;  /* 正红色 */
+            --dark-red: #b71c1c;     /* 暗红色 */
+            --gold: #ffd700;         /* 金色 */
+            --text-shadow: 2px 2px 0 var(--dark-red);
+        }
+
+        body {
+            background: var(--primary-red);
+            font-family: '华文楷体', 'KaiTi', cursive;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 灯笼样式 */
+        .lantern {
+            width: 80px;
+            position: fixed;
+            top: 20px;
+            animation: swing 3s ease-in-out infinite;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .lantern.left { left: 10%; }
+        .lantern.right { right: 10%; }
+
+        @keyframes swing {
+            0%, 100% { transform: rotate(-15deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        /* 主标题 */
+        .main-title {
+            color: var(--gold);
+            text-align: center;
+            font-size: clamp(2rem, 8vw, 4rem);
+            margin: 15vh auto 5vh;
+            text-shadow: var(--text-shadow);
+            animation: titleIn 1.5s ease-out;
+        }
+
+        @keyframes titleIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 祝福卡片 */
+        .greeting-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: rotate(-2deg);
+            position: relative;
+        }
+
+        .greeting-card::after {
+            content: "㊗";
+            position: absolute;
+            right: -30px;
+            top: -30px;
+            font-size: 3rem;
+            color: var(--gold);
+            text-shadow: var(--text-shadow);
+        }
+
+        .greeting-card p {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--dark-red);
+            line-height: 1.8;
+            margin: 1rem 0;
+        }
+
+        /* 红包雨特效 */
+        .hongbao {
+            position: fixed;
+            width: 40px;
+            height: 50px;
+            background: 
+                linear-gradient(45deg, var(--primary-red) 50%, var(--dark-red) 50%);
+            clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+            animation: fall linear forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .lantern { width: 60px; }
+            .greeting-card { margin: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 灯笼装饰 -->
+    <div class="lantern left">🏮</div>
+    <div class="lantern right">🏮</div>
+
+    <!-- 主标题 -->
+    <h1 class="main-title">🐉 龙腾四海 福满人间 🐉</h1>
+
+    <!-- 祝福卡片 -->
+    <div class="greeting-card">
+        <p>🎉 一祝身体康健岁岁平安</p >
+        <p>💰 二祝财源广进事业兴旺</p >
+        <p>🏠 三祝阖家欢乐幸福美满</p >
+        <p>🎓 四祝学业有成步步高升</p >
+    </div>
+
+    <!-- 动态特效 -->
+    <script>
+        // 红包雨生成器
+        function createHongbao() {
+            const hongbao = document.createElement('div');
+            hongbao.className = 'hongbao';
+            hongbao.style.left = Math.random() * 100 + '%';
+            hongbao.style.animationDuration = Math.random() * 3 + 2 + 's';
+            
+            // 点击红包互动
+            hongbao.onclick = function() {
+                this.style.transform = 'scale(2)';
+                this.style.opacity = '0';
+                setTimeout(() => this.remove(), 500);
+            }
+
+            document.body.appendChild(hongbao);
+            setTimeout(() => hongbao.remove(), 5000);
+        }
+
+        // 启动特效
+        function initEffects() {
+            // 红包雨定时器
+            setInterval(createHongbao, 300);
+            
+            // 手机摇动监听
+            if (window.DeviceMotionEvent) {
+                let shakeThreshold = 15;
+                window.addEventListener('devicemotion', function(e) {
+                    let acceleration = e.accelerationIncludingGravity;
+                    if (Math.abs(acceleration.x) > shakeThreshold || 
+                        Math.abs(acceleration.y) > shakeThreshold || 
+                        Math.abs(acceleration.z) > shakeThreshold) {
+                        for(let i=0; i<20; i++) createHongbao();
+                    }
+                });
+            }
+        }
+
+        // 页面加载后初始化
+        window.addEventListener('load', initEffects);
+    </script>
+</body>
+</html>
